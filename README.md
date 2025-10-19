@@ -73,9 +73,12 @@ TOKEN=$(curl -s -X POST http://localhost:8080/auth/login \
 # пример запросов напрямую к Hotel через Gateway
 curl -X POST http://localhost:8080/hotels \
   -H "Authorization: Bearer $TOKEN" -H 'Content-Type: application/json' \
-  -d '{"name":"Hotel A","city":"Moscow"}'
+  -d '{"name":"Hotel A","city":"Moscow","address":"Red Square, 1"}'
 
-# создать комнату (упрощённо: можно POST /rooms с полями number/capacity и привязкой к отелю на стороне сервиса)
+# создать комнату (упрощённо). Поле available отражает операционную доступность (не занятость по датам).
+curl -X POST http://localhost:8080/rooms \
+  -H "Authorization: Bearer $TOKEN" -H 'Content-Type: application/json' \
+  -d '{"number":"101","capacity":2,"available":true}'
 ```
 4) Подсказки по номерам
 ```bash
@@ -99,7 +102,7 @@ curl -H "Authorization: Bearer $TOKEN" http://localhost:8080/bookings
   - POST `/auth/login` — получение JWT
 - Бронирования (Booking):
   - GET `/bookings` — мои бронирования
-  - POST `/bookings` — создать бронирование (PENDING → CONFIRMED/компенсация)
+  - POST `/bookings` — создать бронирование (PENDING → CONFIRMED/компенсация). Поле `createdAt` выставляется автоматически.
   - GET `/bookings/suggestions` — подсказки по комнатам (сортировка по загрузке)
   - GET `/bookings/all` — все бронирования (только админ)
 - Пользователи (Booking, admin):
@@ -125,6 +128,11 @@ curl -H "Authorization: Bearer $TOKEN" http://localhost:8080/bookings
 ## Консоль H2
 - Включена для Hotel Service: `/h2-console` (через прямой порт сервиса)
 - Схема JDBC: см. `application.yml` соответствующего сервиса
+
+## Swagger / OpenAPI
+- Booking Service UI: `http://localhost:<booking-port>/swagger-ui.html`
+- Hotel Service UI: `http://localhost:<hotel-port>/swagger-ui.html`
+- Gateway (агрегация UI): `http://localhost:8080/swagger-ui.html` (переключатель спецификаций)
 
 ## Тестирование
 Пример минимального теста в `hotel-service`: `HotelAvailabilityTests` (идемпотентность hold/confirm/release).

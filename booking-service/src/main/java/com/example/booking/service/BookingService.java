@@ -56,6 +56,7 @@ public class BookingService {
         booking.setEndDate(end);
         booking.setStatus(Booking.Status.PENDING);
         booking.setCorrelationId(correlationId);
+        booking.setCreatedAt(java.time.OffsetDateTime.now());
         booking = bookingRepository.save(booking);
 
         log.info("[{}] Booking PENDING created", correlationId);

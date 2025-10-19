@@ -12,6 +12,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/rooms")
+@io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearer-jwt")
 public class RoomController {
     private final HotelService hotelService;
 
@@ -24,11 +25,11 @@ public class RoomController {
         return hotelService.getRoom(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
-    @PreAuthorize("hasAuthority('SCOPE_admin')")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     @PostMapping
     public Room create(@RequestBody Room r) { return hotelService.saveRoom(r); }
 
-    @PreAuthorize("hasAuthority('SCOPE_admin')")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Room> update(@PathVariable Long id, @RequestBody Room r) {
         return hotelService.getRoom(id)
@@ -39,7 +40,7 @@ public class RoomController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PreAuthorize("hasAuthority('SCOPE_admin')")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         hotelService.deleteRoom(id);

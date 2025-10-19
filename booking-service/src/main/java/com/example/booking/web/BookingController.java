@@ -14,6 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/bookings")
+@io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearer-jwt")
 public class BookingController {
     private final BookingService bookingService;
     private final BookingRepository bookingRepository;
@@ -47,7 +48,7 @@ public class BookingController {
     @GetMapping("/all")
     public ResponseEntity<List<Booking>> all(@AuthenticationPrincipal Jwt jwt) {
         String scope = jwt.getClaimAsString("scope");
-        if (scope != null && scope.contains("ADMIN")) {
+        if ("ADMIN".equals(scope)) {
             return ResponseEntity.ok(bookingRepository.findAll());
         }
         return ResponseEntity.status(403).build();

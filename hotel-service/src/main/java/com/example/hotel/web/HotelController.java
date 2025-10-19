@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/hotels")
+@io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearer-jwt")
 public class HotelController {
     private final HotelService hotelService;
 
@@ -26,11 +27,11 @@ public class HotelController {
         return hotelService.getHotel(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
-    @PreAuthorize("hasAuthority('SCOPE_admin')")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     @PostMapping
     public Hotel create(@RequestBody Hotel h) { return hotelService.saveHotel(h); }
 
-    @PreAuthorize("hasAuthority('SCOPE_admin')")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Hotel> update(@PathVariable Long id, @RequestBody Hotel h) {
         return hotelService.getHotel(id)
@@ -41,7 +42,7 @@ public class HotelController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PreAuthorize("hasAuthority('SCOPE_admin')")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         hotelService.deleteHotel(id);

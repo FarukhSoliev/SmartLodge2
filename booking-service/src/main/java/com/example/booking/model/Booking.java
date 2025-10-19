@@ -2,6 +2,7 @@ package com.example.booking.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(name = "uk_booking_request", columnNames = {"requestId"}))
@@ -22,6 +23,8 @@ public class Booking {
 
     private String correlationId; // bookingId for logs
 
+    private OffsetDateTime createdAt;
+
     public enum Status { PENDING, CONFIRMED, CANCELLED }
 
     public Long getId() { return id; }
@@ -40,6 +43,8 @@ public class Booking {
     public void setStatus(Status status) { this.status = status; }
     public String getCorrelationId() { return correlationId; }
     public void setCorrelationId(String correlationId) { this.correlationId = correlationId; }
+    public OffsetDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(OffsetDateTime createdAt) { this.createdAt = createdAt; }
 }
 
 

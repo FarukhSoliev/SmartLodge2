@@ -14,6 +14,8 @@ public class Room {
 
     private long timesBooked;
 
+    private boolean available = true;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Hotel hotel;
 
@@ -25,6 +27,8 @@ public class Room {
     public void setCapacity(int capacity) { this.capacity = capacity; }
     public long getTimesBooked() { return timesBooked; }
     public void setTimesBooked(long timesBooked) { this.timesBooked = timesBooked; }
+    public boolean isAvailable() { return available; }
+    public void setAvailable(boolean available) { this.available = available; }
     public Hotel getHotel() { return hotel; }
     public void setHotel(Hotel hotel) { this.hotel = hotel; }
 }

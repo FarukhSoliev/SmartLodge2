@@ -33,7 +33,7 @@ public class AuthService {
         User u = new User();
         u.setUsername(username);
         u.setPasswordHash(BCrypt.hashpw(password, BCrypt.gensalt()));
-        u.setRoles(admin ? "USER,ADMIN" : "USER");
+        u.setRole(admin ? "ADMIN" : "USER");
         return userRepository.save(u);
     }
 
@@ -46,7 +46,7 @@ public class AuthService {
         return Jwts.builder()
                 .setSubject(u.getId().toString())
                 .addClaims(Map.of(
-                        "scope", u.getRoles(),
+                        "scope", u.getRole(),
                         "username", u.getUsername()
                 ))
                 .setIssuedAt(Date.from(now))
