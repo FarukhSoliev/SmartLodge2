@@ -136,7 +136,20 @@ curl -H "Authorization: Bearer $TOKEN" http://localhost:8080/bookings
 
 ## Тестирование
 Пример минимального теста в `hotel-service`: `HotelAvailabilityTests` (идемпотентность hold/confirm/release).
-Для расширения — добавить интеграционные тесты сценариев: успех, ошибка, таймаут, повторная доставка.
+
+
+### Интеграционные тесты
+- Booking Service (WebTestClient + WireMock):
+  - `BookingHttpIT#createBooking_Http_Success` — успешное бронирование (CONFIRMED)
+  - Покрыты unit/сервис-тестами: ошибка удалённого сервиса (компенсация), таймаут, идемпотентность, подсказки
+- Hotel Service (MockMvc):
+  - `HotelHttpIT#adminCanCreateHotel` — админ может создавать отели
+  - `HotelAvailabilityTests` и `HotelMoreTests` — занятость по датам, available-флаг, статистика
+
+Запуск всех тестов:
+```bash
+mvn -q -DskipTests=false test
+```
 
 ## Ограничения и дальнейшее развитие
 - В учебных целях упрощены модели и проверки. Для высокой конкуренции потребуется усилить блокировки/версионирование на уровне БД.
