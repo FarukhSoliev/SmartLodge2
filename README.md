@@ -137,7 +137,6 @@ curl -H "Authorization: Bearer $TOKEN" http://localhost:8080/bookings
 ## Тестирование
 Пример минимального теста в `hotel-service`: `HotelAvailabilityTests` (идемпотентность hold/confirm/release).
 
-
 ### Интеграционные тесты
 - Booking Service (WebTestClient + WireMock):
   - `BookingHttpIT#createBooking_Http_Success` — успешное бронирование (CONFIRMED)
@@ -157,4 +156,4 @@ mvn -q -DskipTests=false test
 - Отказоустойчивость можно усилить Circuit Breaker (Resilience4j), централизованным логированием и трассировкой.
 
 ---
-Автор: Демонстрационный проект для учебных целей.
+Автор: Тетюков А.С.
