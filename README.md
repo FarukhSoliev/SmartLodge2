@@ -155,5 +155,4 @@ mvn -q -DskipTests=false test
 - Без внешнего Identity Provider; при желании интегрируется Keycloak/OAuth2.
 - Отказоустойчивость можно усилить Circuit Breaker (Resilience4j), централизованным логированием и трассировкой.
 
----
-Автор: Тетюков А.С.
+
